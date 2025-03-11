@@ -168,10 +168,10 @@ impl<W: for<'a> MakeWriter<'a> + 'static> BunyanFormattingLayer<W> {
         if let Ok(time) = &time::OffsetDateTime::now_utc().format(&Rfc3339) {
             map_serializer.serialize_entry(TIME, time)?;
         }
+        map_serializer.serialize_entry(LEVEL, &to_bunyan_level(level))?;
+        map_serializer.serialize_entry(MESSAGE, &message)?;
         map_serializer.serialize_entry(BUNYAN_VERSION, &self.bunyan_version)?;
         map_serializer.serialize_entry(NAME, &self.name)?;
-        map_serializer.serialize_entry(MESSAGE, &message)?;
-        map_serializer.serialize_entry(LEVEL, &to_bunyan_level(level))?;
         map_serializer.serialize_entry(HOSTNAME, &self.hostname)?;
         map_serializer.serialize_entry(PID, &self.pid)?;
 
